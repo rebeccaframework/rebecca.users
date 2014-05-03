@@ -2,6 +2,10 @@
 rebecca.users
 ===================
 
+.. image:: https://travis-ci.org/rebeccaframework/rebecca.users.svg?branch=master
+   :target: https://travis-ci.org/rebeccaframework/rebecca.users
+
+
 ``rebecca.users`` is management user model and authentication.
 
 Introduction
