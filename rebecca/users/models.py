@@ -7,9 +7,10 @@ from sqlalchemy import (
     Table,
     Unicode,
 )
-# from sqlalchemy.orm import (
-#     relationship,
-# )
+from sqlalchemy.orm import (
+    # relationship,
+    Mapper,
+)
 
 METADATA = MetaData()
 USER_TABLE = Table(
@@ -39,3 +40,7 @@ class User(object):
 
     def validate_password(self, password):
         return self.password_digest == self.hash_password(password)
+
+
+def init():
+    Mapper(User, USER_TABLE)
