@@ -12,9 +12,9 @@ def setup_db():
     DBSession = scoped_session(
         sessionmaker(extension=ZopeTransactionExtension(),
                      bind=engine))
-    from rebecca.users.models import METADATA
-    METADATA.drop_all(bind=engine)
-    METADATA.create_all(bind=engine)
+    from rebecca.users.api import create_tables, drop_tables
+    drop_tables(engine)
+    create_tables(engine)
     return DBSession
 
 
