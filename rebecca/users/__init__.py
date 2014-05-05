@@ -1,5 +1,5 @@
 from .interfaces import IAuthenticator
-from .authenticator import UserAuthenticator
+from .authenticator import RepositoryAuthenticator
 from .models import User, init
 from rebecca.repository.sqla import SQLARepository
 
@@ -12,9 +12,10 @@ def includeme(config):
     user_model = config.registry.settings.get('rebecca.users.user_model',
                                               User)
     user_model = config.maybe_dotted(user_model)
-    config.registry.registerUtility(UserAuthenticator(db_session, user_model),
+    user_repository = SQLARepository(
+        user_model, user_model.username, db_session)
+
+    config.add_repository(user_repository,
+                          name='user')
+    config.registry.registerUtility(RepositoryAuthenticator(user_repository),
                                     IAuthenticator)
-    config.add_repository(
-        SQLARepository(
-            user_model, user_model.id, db_session),
-        name='user')
