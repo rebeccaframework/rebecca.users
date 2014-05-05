@@ -48,3 +48,40 @@ class TestUserAuthenticator(object):
 
         assert result is mock_user
         mock_user.validate_password.assert_called_with('secret')
+
+
+class TestRepositoryAuthenticator(object):
+
+    def _get_target(self):
+        from rebecca.users.authenticator import RepositoryAuthenticator
+        return RepositoryAuthenticator
+
+    def _make_one(self, *args, **kwargs):
+        return self._get_target()(*args, **kwargs)
+
+    def test_authenticate(self):
+        user = mock.Mock()
+        user.validate_password.return_value = True
+        user_repository = dict(dummy=user)
+        target = self._make_one(user_repository)
+        result = target.authenticate('dummy', 'secret')
+
+        assert result == user
+        user.validate_password.assert_called_with('secret')
+
+    def test_authenticate_invalid(self):
+        user = mock.Mock()
+        user.validate_password.return_value = False
+        user_repository = dict(dummy=user)
+        target = self._make_one(user_repository)
+        result = target.authenticate('dummy', 'secret')
+
+        assert result is None
+        user.validate_password.assert_called_with('secret')
+
+    def test_authenticate_no_user(self):
+        user_repository = dict()
+        target = self._make_one(user_repository)
+        result = target.authenticate('dummy', 'secret')
+
+        assert result is None

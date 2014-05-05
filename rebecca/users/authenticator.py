@@ -3,6 +3,22 @@ from .interfaces import IAuthenticator
 
 
 @implementer(IAuthenticator)
+class RepositoryAuthenticator(object):
+    def __init__(self, user_repository):
+        self.user_repository = user_repository
+
+    def authenticate(self, username, password):
+        user = self.user_repository.get(username)
+        if user is None:
+            return None
+
+        if not user.validate_password(password):
+            return None
+
+        return user
+
+
+@implementer(IAuthenticator)
 class UserAuthenticator(object):
     def __init__(self, db_session, user_model):
         self.db_session = db_session
