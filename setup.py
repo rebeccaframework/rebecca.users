@@ -4,13 +4,14 @@ from setuptools import setup, find_packages
 requires = [
     "setuptools>=0.7",
     "pyramid",
-    "zope.sqlalchemy",
     "sqlalchemy",
+    "rebecca.repository",
 ]
 
 tests_require = [
     "pytest",
     "pytest-cov",
+    "zope.sqlalchemy",
 ]
 
 

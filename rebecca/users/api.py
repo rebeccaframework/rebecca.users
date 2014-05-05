@@ -1,6 +1,7 @@
 """ api to use this library
 """
 
+from rebecca.repository import get_repository
 from .interfaces import IAuthenticator
 from .models import METADATA
 
@@ -20,3 +21,7 @@ def create_tables(engine):
 
 def drop_tables(engine):
     METADATA.drop_all(bind=engine)
+
+
+def get_user_repository(request):
+    return get_repository(request, 'user')
